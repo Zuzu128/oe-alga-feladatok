@@ -31,10 +31,28 @@ namespace OE.ALGA.Paradigmak
             else
                 throw new TaroloMegteltKivetel();
         }
+
+        public virtual void MindentVegrehajt()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                tarolo[i].Vegrehajtas();
+            }
+        }
     }
 
     public class TaroloMegteltKivetel : Exception
     {
 
     }
+
+    public interface IFuggo
+    {
+        public bool FuggosegTeljesul { get; }
+    }
+
+    /*public class FuggoFeladatTarolo<T> : FeladatTarolo<T>
+    {
+
+    }*/
 }
