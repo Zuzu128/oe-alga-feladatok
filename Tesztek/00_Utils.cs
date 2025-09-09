@@ -30,21 +30,21 @@ namespace OE.ALGA.Tesztek
         public void Vegrehajtas() => Vegrehajtott = true;
         public TesztFeladat(string nev) => Azonosito = nev;
     }
-    class TesztFuggoFeladat : TesztFeladat, IFuggo
-    {
-        public bool Vegrehajthato { get; set; }
+    //class TesztFuggoFeladat : TesztFeladat, IFuggo
+    //{
+    //    public bool Vegrehajthato { get; set; }
 
-        public virtual bool FuggosegTeljesul => Vegrehajthato;
+    //    public virtual bool FuggosegTeljesul => Vegrehajthato;
 
-        public TesztFuggoFeladat(string nev) : base(nev) { }
-    }
-    class TesztElokovetelmenytolFuggoFeladat : TesztFuggoFeladat
-    {
-        readonly TesztFeladat elokovetelmeny;
+    //    public TesztFuggoFeladat(string nev) : base(nev) { }
+    //}
+    //class TesztElokovetelmenytolFuggoFeladat : TesztFuggoFeladat
+    //{
+    //    readonly TesztFeladat elokovetelmeny;
 
-        public override bool FuggosegTeljesul => base.FuggosegTeljesul && elokovetelmeny.Vegrehajtott;
-        public TesztElokovetelmenytolFuggoFeladat(string nev, TesztFeladat elokovetelmeny) : base(nev) { this.elokovetelmeny = elokovetelmeny; }
-    }
+    //    public override bool FuggosegTeljesul => base.FuggosegTeljesul && elokovetelmeny.Vegrehajtott;
+    //    public TesztElokovetelmenytolFuggoFeladat(string nev, TesztFeladat elokovetelmeny) : base(nev) { this.elokovetelmeny = elokovetelmeny; }
+    //}
     #endregion
 
     #region Optimalizalas
