@@ -4,12 +4,12 @@ namespace Guardian
 {
     public static class Recursion
     {
-        /// <summary>
-        /// This method is injected into every method and property call to check the current state
-        /// of the stack. If the number of calls on the stack exceeds 500, infinite recursion is
-        /// assumed and an exception is thrown, avoiding a complete program crash.
-        /// </summary>
-        /// <exception cref="System.StackOverflowException"></exception>
+        / <summary>
+        / This method is injected into every method and property call to check the current state
+        / of the stack.If the number of calls on the stack exceeds 500, infinite recursion is
+        / assumed and an exception is thrown, avoiding a complete program crash.
+        / </summary>
+        / <exception cref = "System.StackOverflowException" ></ exception >
         public static void CheckStackTrace()
         {
             System.Diagnostics.StackTrace st = new System.Diagnostics.StackTrace();
@@ -30,21 +30,21 @@ namespace OE.ALGA.Tesztek
         public void Vegrehajtas() => Vegrehajtott = true;
         public TesztFeladat(string nev) => Azonosito = nev;
     }
-    //class TesztFuggoFeladat : TesztFeladat, IFuggo
-    //{
-    //    public bool Vegrehajthato { get; set; }
+    class TesztFuggoFeladat : TesztFeladat, IFuggo
+    {
+        public bool Vegrehajthato { get; set; }
 
-    //    public virtual bool FuggosegTeljesul => Vegrehajthato;
+        public virtual bool FuggosegTeljesul => Vegrehajthato;
 
-    //    public TesztFuggoFeladat(string nev) : base(nev) { }
-    //}
-    //class TesztElokovetelmenytolFuggoFeladat : TesztFuggoFeladat
-    //{
-    //    readonly TesztFeladat elokovetelmeny;
+        public TesztFuggoFeladat(string nev) : base(nev) { }
+    }
+    class TesztElokovetelmenytolFuggoFeladat : TesztFuggoFeladat
+    {
+        readonly TesztFeladat elokovetelmeny;
 
-    //    public override bool FuggosegTeljesul => base.FuggosegTeljesul && elokovetelmeny.Vegrehajtott;
-    //    public TesztElokovetelmenytolFuggoFeladat(string nev, TesztFeladat elokovetelmeny) : base(nev) { this.elokovetelmeny = elokovetelmeny; }
-    //}
+        public override bool FuggosegTeljesul => base.FuggosegTeljesul && elokovetelmeny.Vegrehajtott;
+        public TesztElokovetelmenytolFuggoFeladat(string nev, TesztFeladat elokovetelmeny) : base(nev) { this.elokovetelmeny = elokovetelmeny; }
+    }
     #endregion
 
     #region Optimalizalas

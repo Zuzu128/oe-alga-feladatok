@@ -13,8 +13,8 @@ namespace OE.ALGA.Paradigmak
 
     public class FeladatTarolo<T> where T : IVegrehajthato
     {
-        T[] tarolo;
-        int n;
+        protected T[] tarolo;
+        protected int n;
 
         public FeladatTarolo(int meret)
         {
@@ -51,8 +51,21 @@ namespace OE.ALGA.Paradigmak
         public bool FuggosegTeljesul { get; }
     }
 
-    /*public class FuggoFeladatTarolo<T> : FeladatTarolo<T>
+    public class FuggoFeladatTarolo<T> : FeladatTarolo<T> where T : IFuggo, IVegrehajthato
     {
+        public FuggoFeladatTarolo(int meret) : base(meret)
+        {
+        }
 
-    }*/
+        public override void MindentVegrehajt()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                if (tarolo[i].FuggosegTeljesul)
+                {
+                    tarolo[i].Vegrehajtas();
+                }
+            }
+        }
+    }
 }
