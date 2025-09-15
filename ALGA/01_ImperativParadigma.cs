@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace OE.ALGA.Paradigmak
         void Vegrehajtas();
     }
 
-    public class FeladatTarolo<T> where T : IVegrehajthato
+    public class FeladatTarolo<T> : IEnumerable<T> where T : IVegrehajthato
     {
         protected T[] tarolo;
         protected int n;
@@ -31,13 +32,22 @@ namespace OE.ALGA.Paradigmak
             else
                 throw new TaroloMegteltKivetel();
         }
-
         public virtual void MindentVegrehajt()
         {
             for (int i = 0; i < n; i++)
             {
                 tarolo[i].Vegrehajtas();
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new FeladatTaroloBejaro<T>(tarolo, n);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 
@@ -66,6 +76,37 @@ namespace OE.ALGA.Paradigmak
                     tarolo[i].Vegrehajtas();
                 }
             }
+        }
+    }
+
+    public class FeladatTaroloBejaro<T> : IEnumerator<T>
+    {
+        T[] tarolo;
+        int n;
+        int aktualisIndex = -1;
+        public T Current => tarolo[aktualisIndex];
+
+        object IEnumerator.Current => Current;
+
+        public FeladatTaroloBejaro(T[] tarolo, int n)
+        {
+            this.tarolo = tarolo;
+            this.n = n;
+        }
+
+        public bool MoveNext()
+        {
+            aktualisIndex++;
+
+            return aktualisIndex < n;
+        }
+
+        public void Reset()
+        {
+            aktualisIndex = -1;
+        }
+        public void Dispose()
+        {
         }
     }
 }
