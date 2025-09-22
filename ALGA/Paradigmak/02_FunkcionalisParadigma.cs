@@ -17,7 +17,7 @@ namespace OE.ALGA.Paradigmak
         public virtual IEnumerator<T> GetEnumerator()
         {
             Func<T, bool> feltetel = BejaroFeltetel ?? (_ => true);
-            return new FeladatTaroloBejaro<T>(tarolo, n);
+            return new FeltetelesFeladatTaroloBejaro<T>(tarolo, n, feltetel);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
