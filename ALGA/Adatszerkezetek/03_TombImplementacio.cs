@@ -125,26 +125,60 @@ namespace OE.ALGA.Adatszerkezetek
 
     public class TombLista<T> : Lista<T>
     {
-        public int Elemszam => throw new NotImplementedException();
+        T[] E;
+        int n = 0;
+
+        public TombLista(int meret)
+        {
+            E = new T[meret];
+        }
+
+        public int Elemszam { get { return E.Length; } }
 
         public void Bejar(Action<T> muvelet)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < n; i++)
+            {
+                muvelet(E[i]);
+            }
         }
 
         public void Beszur(int index, T ertek)
         {
-            throw new NotImplementedException();
+            if (index <= n - 1)
+            {
+                if (n == E.Length)
+                {
+                    MeretNoveles();
+                }
+                n++;
+                for (int i = n; i > index + 1; i--)
+                {
+                    E[i] = E[i - 1];
+                }
+                E[index] = ertek;
+            }
+            else
+            {
+                throw new HibasIndexKivetel();
+            }
         }
 
         public void Hozzafuz(T ertek)
         {
-            throw new NotImplementedException();
+            Beszur(n + 1, ertek);
         }
 
         public T Kiolvas(int index)
         {
-            throw new NotImplementedException();
+            if (index <= n)
+            {
+                return E[index];
+            }
+            else
+            {
+                throw new HibasIndexKivetel();
+            }
         }
 
         public void Modosit(int index, T ertek)
@@ -155,6 +189,17 @@ namespace OE.ALGA.Adatszerkezetek
         public void Torol(T ertek)
         {
             throw new NotImplementedException();
+        }
+
+        private void MeretNoveles()
+        {
+            T[] EMasolat = E;
+            E = new T[EMasolat.Length * 2];
+            for (int i = 0; i > n; i++)
+            {
+                E[i] = EMasolat[i];
+            }
+            Array.Clear(EMasolat);
         }
     }
 }
