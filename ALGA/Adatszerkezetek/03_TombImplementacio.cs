@@ -221,4 +221,40 @@ namespace OE.ALGA.Adatszerkezetek
             Array.Clear(EMasolat);
         }
     }
+
+    public class TombListaBejaro<T> : IEnumerator<T>
+    {
+        T[] E;
+        int n;
+        int aktualisIndex = -1;
+        T current;
+        public T Current => current;
+
+        object IEnumerator.Current => Current;
+
+        public TombListaBejaro(T[] E, int n)
+        {
+            this.E = E;
+            this.n = n;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            while(++aktualisIndex < n)
+            {
+                current = E[aktualisIndex];
+                return true;
+            }
+            return false;
+        }
+
+        public void Reset()
+        {
+            aktualisIndex = -1;
+        }
+    }
 }
