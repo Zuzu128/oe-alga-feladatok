@@ -183,12 +183,31 @@ namespace OE.ALGA.Adatszerkezetek
 
         public void Modosit(int index, T ertek)
         {
-            throw new NotImplementedException();
+            if (index <= n)
+            {
+                E[index] = ertek;
+            }
+            else
+            {
+                throw new HibasIndexKivetel();
+            }
         }
 
         public void Torol(T ertek)
         {
-            throw new NotImplementedException();
+            int db = 0;
+            for (int i = 0;  i < n; i++)
+            {
+                if (E[i]!.Equals(ertek))
+                {
+                    db++;
+                }
+                else
+                {
+                    E[i - db] = E[i];
+                }
+            }
+            n = n - db;
         }
 
         private void MeretNoveles()
