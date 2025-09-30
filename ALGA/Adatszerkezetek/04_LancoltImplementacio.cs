@@ -215,7 +215,7 @@ namespace OE.ALGA.Adatszerkezetek
             else
             {
                 LancElem<T>? p = fej;
-                while(p.kov != null)
+                while (p.kov != null)
                 {
                     p = p.kov;
                 }
@@ -286,7 +286,7 @@ namespace OE.ALGA.Adatszerkezetek
                     p = null;
                     p = q;
                 }
-            } 
+            }
             while (p != null);
         }
     }
