@@ -66,4 +66,46 @@ namespace OE.ALGA.Adatszerkezetek
             }
         }
     }
+
+    public class LancoltSor<T> : Sor<T>
+    {
+        LancElem<T>? fej;
+        LancElem<T>? vege;
+
+        public LancoltSor()
+        {
+            fej = null;
+            vege = null;
+        }
+
+        public bool Ures { get; }
+
+        public void Felszabadit()
+        {
+            while ( fej != null )
+            {
+                LancElem<T>? q = fej;
+                fej = fej.kov;
+                q = null;
+            }
+            vege = null;
+        }
+
+        //LáncoltSor Sorba (érték : T)
+
+        public T Elso()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Sorba(T ertek)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T Sorbol()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
