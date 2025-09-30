@@ -6,7 +6,7 @@ namespace OE.ALGA.Adatszerkezetek
 {
     // 4. heti labor feladat - Tesztek: 04_LancoltImplementacioTesztek.cs
 
-    internal class LancElem<T>
+    public class LancElem<T>
     {
         public T tart;
         public LancElem<T>? kov;
@@ -145,7 +145,7 @@ namespace OE.ALGA.Adatszerkezetek
         }
     }
 
-    public class LancoltLista<T> : Lista<T>
+    public class LancoltLista<T> : Lista<T>, IEnumerable<T>
     {
         LancElem<T>? fej;
         int n = 0;
@@ -173,7 +173,6 @@ namespace OE.ALGA.Adatszerkezetek
             {
                 muvelet(p.tart);
                 p = p.kov;
-                n++;
             }
         }
 
@@ -288,6 +287,55 @@ namespace OE.ALGA.Adatszerkezetek
                 }
             }
             while (p != null);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new LancoltListaBejaro<T>(fej);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+    }
+
+    public class LancoltListaBejaro<T> : IEnumerator<T>
+    {
+        LancElem<T>? fej;
+        LancElem<T>? aktualisElem;
+
+        public T Current { get { return aktualisElem.tart; } }
+
+        object IEnumerator.Current => Current;
+
+        public LancoltListaBejaro(LancElem<T>? fej)
+        {
+            this.fej = fej;
+            //aktualisElem = null;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            if (aktualisElem != null)
+            {
+                aktualisElem = aktualisElem.kov;
+                return true;
+            }
+            else
+            {
+                Reset();
+                return false;
+            }
+        }
+
+        public void Reset()
+        {
+            aktualisElem = fej;
         }
     }
 }
