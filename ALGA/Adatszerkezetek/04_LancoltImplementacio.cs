@@ -91,21 +91,51 @@ namespace OE.ALGA.Adatszerkezetek
             vege = null;
         }
 
-        //LáncoltSor Sorba (érték : T)
-
         public T Elso()
         {
-            throw new NotImplementedException();
+            if (fej != null)
+            {
+                return fej.tart;
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
         }
 
         public void Sorba(T ertek)
         {
-            throw new NotImplementedException();
+            LancElem<T> uj = new LancElem<T>(ertek, null);
+            if (vege != null)
+            {
+                vege.kov = uj;
+            }
+            else
+            {
+                fej = uj;
+            }
+            vege = uj;
         }
 
         public T Sorbol()
         {
-            throw new NotImplementedException();
+            if (fej != null)
+            {
+                T ertek = fej.tart;
+                LancElem<T>? q = fej;
+                fej = fej.kov;
+                if (fej != null)
+                {
+                    vege = null;
+                }
+                q = null;
+                return ertek;
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
+
         }
     }
 }
