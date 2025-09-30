@@ -164,6 +164,7 @@ namespace OE.ALGA.Adatszerkezetek
                 fej = fej.kov;
                 p = null;
             }
+            n = 0;
         }
 
         public void Bejar(Action<T> muvelet)
@@ -178,7 +179,11 @@ namespace OE.ALGA.Adatszerkezetek
 
         public void Beszur(int index, T ertek)
         {
-            if (fej == null || index == 1)
+            if (index < 0 || index > n)
+            {
+                throw new HibasIndexKivetel();
+            }
+            if (index == 0)
             {
                 LancElem<T> uj = new LancElem<T>(ertek, fej);
                 fej = uj;
@@ -186,22 +191,14 @@ namespace OE.ALGA.Adatszerkezetek
             else
             {
                 LancElem<T>? p = fej;
-                int i = 2;
-                while (p.kov != null && i < index)
+                for (int i = 0; i < index - 1; i++)
                 {
-                    p = p.kov;
-                    i++;
+                    p = p.kov!;
                 }
-                if (i <= index)
-                {
-                    LancElem<T> uj = new LancElem<T>(ertek, p.kov);
-                    p.kov = uj;
-                }
-                else
-                {
-                    throw new HibasIndexKivetel();
-                }
+                LancElem<T> uj = new LancElem<T> (ertek, p.kov);
+                p.kov = uj;
             }
+            n++;
         }
 
         public void Hozzafuz(T ertek)
@@ -220,6 +217,7 @@ namespace OE.ALGA.Adatszerkezetek
                 }
                 p.kov = uj;
             }
+            n++;
         }
 
         public T Kiolvas(int index)
@@ -282,6 +280,7 @@ namespace OE.ALGA.Adatszerkezetek
                     {
                         e.kov = q;
                     }
+                    n--;
                     p = null;
                     p = q;
                 }
@@ -321,16 +320,15 @@ namespace OE.ALGA.Adatszerkezetek
 
         public bool MoveNext()
         {
-            if (aktualisElem != null)
+            if (aktualisElem == null)
             {
-                aktualisElem = aktualisElem.kov;
-                return true;
+                aktualisElem = fej;
             }
             else
             {
-                Reset();
-                return false;
+                aktualisElem = aktualisElem.kov;
             }
+            return aktualisElem != null;
         }
 
         public void Reset()
