@@ -71,6 +71,7 @@ namespace OE.ALGA.Adatszerkezetek
     {
         LancElem<T>? fej;
         LancElem<T>? vege;
+        int n = 0;
 
         public LancoltSor()
         {
@@ -222,8 +223,12 @@ namespace OE.ALGA.Adatszerkezetek
 
         public T Kiolvas(int index)
         {
+            if (index < 0 || index >= n)
+            {
+                throw new HibasIndexKivetel();
+            }
             LancElem<T>? p = fej;
-            int i = 1;
+            int i = 0;
             while (p != null && i < index)
             {
                 p = p.kov;
@@ -241,8 +246,12 @@ namespace OE.ALGA.Adatszerkezetek
 
         public void Modosit(int index, T ertek)
         {
+            if (index < 0 || index >= n)
+            {
+                throw new HibasIndexKivetel();
+            }
             LancElem<T>? p = fej;
-            int i = 1;
+            int i = 0;
             while (p != null && i < index)
             {
                 p = p.kov;
