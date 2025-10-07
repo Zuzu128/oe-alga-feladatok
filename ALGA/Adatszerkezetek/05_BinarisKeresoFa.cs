@@ -117,9 +117,71 @@ namespace OE.ALGA.Adatszerkezetek
             return ReszfaEleme(gyoker, ertek);
         }
 
+        FaElem<T> ReszfabolTorol(FaElem<T>? p, T ertek)
+        {
+            if (p != null)
+            {
+                if (p.tart.CompareTo(ertek) == 1)
+                {
+                    p.bal = ReszfabolTorol(p.bal, ertek);
+                }
+                else
+                {
+                    if (p.tart.CompareTo(ertek) == -1)
+                    {
+                        p.jobb = ReszfabolTorol(p.jobb, ertek);
+                    }
+                    else
+                    {
+                        if (p.bal == null)
+                        {
+                            FaElem<T>? q = p;
+                            p = p.jobb;
+                            q = null;
+                        }
+                        else
+                        {
+                            if (p.jobb == null)
+                            {
+                                FaElem<T>? q = p;
+                                p = p.bal;
+                                q = null;
+                            }
+                            else
+                            {
+                                p.bal = KetGyerekesTorles(p, p.bal);
+                            }
+                        }
+                    }
+                }
+                return p;
+            }
+            else
+            {
+                throw new NincsElemKivetel();
+            }
+        }
+
+        FaElem<T> KetGyerekesTorles(FaElem<T>? e, FaElem<T>? r)
+        {
+            if (r.jobb != null)
+            {
+                r.jobb = KetGyerekesTorles(e, r.jobb);
+                return r;
+            }
+            else
+            {
+                e.tart = r.tart;
+                FaElem<T>? q = r;
+                r = r.bal;
+                q = null;
+                return r;
+            }
+        }
+
         public void Torol(T ertek)
         {
-            throw new NotImplementedException();
+            gyoker = ReszfabolTorol(gyoker, ertek);
         }
     }
 }
