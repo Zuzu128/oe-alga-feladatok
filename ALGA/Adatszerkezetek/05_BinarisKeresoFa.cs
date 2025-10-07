@@ -32,9 +32,29 @@ namespace OE.ALGA.Adatszerkezetek
             }
         }
 
+        void ReszfaBejarasInorder(FaElem<T>? p, Action<T> muvelet)
+        {
+            if (p != null)
+            {
+                ReszfaBejarasInorder(p.bal, muvelet);
+                muvelet(p.tart);
+                ReszfaBejarasInorder(p.jobb, muvelet);
+            }
+        }
+
+        void ReszfaBejarasPostorder(FaElem<T>? p, Action<T> muvelet)
+        {
+            if (p != null)
+            {
+                ReszfaBejarasPostorder(p.bal, muvelet);
+                ReszfaBejarasPostorder(p.jobb, muvelet);
+                muvelet(p.tart);
+            }
+        }
+
         public void Bejar(Action<T> muvelet)
         {
-
+            ReszfaBejarasPreorder(gyoker, muvelet);
         }
 
         FaElem<T> ReszfabaBeszur(FaElem<T>? p, T ertek)
