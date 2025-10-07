@@ -32,6 +32,14 @@ namespace OE.ALGA.Adatszerkezetek
         {
         }
 
+        void KulcsKeres(K kulcs)
+        {
+            if (E[h(kulcs)] != null && E[h(kulcs)].kulcs = kulcs)
+            {
+
+            }
+        }
+
         public void Beir(K kulcs, T ertek)
         {
             throw new NotImplementedException();
