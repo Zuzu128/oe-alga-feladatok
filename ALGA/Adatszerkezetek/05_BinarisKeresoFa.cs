@@ -86,9 +86,35 @@ namespace OE.ALGA.Adatszerkezetek
             gyoker = ReszfabaBeszur(gyoker, ertek);
         }
 
+        bool ReszfaEleme(FaElem<T>? p, T ertek)
+        {
+            if (p != null)
+            {
+                if (p.tart.CompareTo(ertek) == 1)
+                {
+                    return ReszfaEleme(p.bal, ertek);
+                }
+                else
+                {
+                    if (p.tart.CompareTo(ertek) == -1)
+                    {
+                        return ReszfaEleme(p.jobb, ertek);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool Eleme(T ertek)
         {
-            throw new NotImplementedException();
+            return ReszfaEleme(gyoker, ertek);
         }
 
         public void Torol(T ertek)
