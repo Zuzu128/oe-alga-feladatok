@@ -34,7 +34,7 @@ namespace OE.ALGA.Adatszerkezetek
 
         SzotarElem<K,T> KulcsKeres(K kulcs)
         {
-            if (!E[h(kulcs)].Equals(null) && E[h(kulcs)].kulcs.Equals(kulcs))
+            if (E[h(kulcs)] != null && E[h(kulcs)].kulcs.Equals(kulcs))
             {
                 return E[h(kulcs)];
             }
@@ -56,7 +56,7 @@ namespace OE.ALGA.Adatszerkezetek
             else
             {
                 SzotarElem<K, T> uj = new SzotarElem<K, T>(kulcs, ertek);
-                if (!E[h(kulcs)].Equals(null))
+                if (E[h(kulcs)] != null)
                 {
                     E[h(kulcs)] = uj;
                 }
@@ -76,13 +76,13 @@ namespace OE.ALGA.Adatszerkezetek
             }
             else
             {
-                throw new Exception("Hibás kulcs");
+                throw new HibasKulcsKivetel();
             }
         }
 
         public void Torol(K kulcs)
         {
-            if (!E[h(kulcs)].Equals(null) && E[h(kulcs)].kulcs.Equals(kulcs))
+            if (E[h(kulcs)] !=null && E[h(kulcs)].kulcs.Equals(kulcs))
             {
                 E[h(kulcs)] = null;
             }
@@ -97,7 +97,7 @@ namespace OE.ALGA.Adatszerkezetek
                 }
                 else
                 {
-                    throw new Exception("Hibás kulcs");
+                    throw new HibasKulcsKivetel();
                 }
             }
         }
