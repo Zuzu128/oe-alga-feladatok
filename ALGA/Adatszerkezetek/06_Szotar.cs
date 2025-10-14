@@ -32,27 +32,74 @@ namespace OE.ALGA.Adatszerkezetek
         {
         }
 
-        void KulcsKeres(K kulcs)
+        SzotarElem<K,T> KulcsKeres(K kulcs)
         {
-            if (E[h(kulcs)] != null && E[h(kulcs)].kulcs = kulcs)
+            if (!E[h(kulcs)].Equals(null) && E[h(kulcs)].kulcs.Equals(kulcs))
             {
-
+                return E[h(kulcs)];
+            }
+            else
+            {
+                SzotarElem<K, T> e = null;
+                U.Bejar(x => { if (x.kulcs.Equals(kulcs)) e = x; });
+                return e;
             }
         }
 
         public void Beir(K kulcs, T ertek)
         {
-            throw new NotImplementedException();
+            SzotarElem<K,T> meglevo = KulcsKeres(kulcs);
+            if (meglevo != null)
+            {
+                meglevo.tart = ertek;
+            }
+            else
+            {
+                SzotarElem<K, T> uj = new SzotarElem<K, T>(kulcs, ertek);
+                if (!E[h(kulcs)].Equals(null))
+                {
+                    E[h(kulcs)] = uj;
+                }
+                else
+                {
+                    U.Hozzafuz(uj);
+                }
+            }
         }
 
         public T Kiolvas(K kulcs)
         {
-            throw new NotImplementedException();
+            SzotarElem<K, T> meglevo = KulcsKeres(kulcs);
+            if(meglevo != null)
+            {
+                return meglevo.tart;
+            }
+            else
+            {
+                throw new Exception("Hibás kulcs");
+            }
         }
 
         public void Torol(K kulcs)
         {
-            throw new NotImplementedException();
+            if (!E[h(kulcs)].Equals(null) && E[h(kulcs)].kulcs.Equals(kulcs))
+            {
+                E[h(kulcs)] = null;
+            }
+            else
+            {
+                SzotarElem<K, T> e = null;
+                U.Bejar(x => { if (x.kulcs.Equals(kulcs)) e = x; });
+                if (e != null)
+                {
+                    U.Torol(e);
+                    e = null;
+                }
+                else
+                {
+                    throw new Exception("Hibás kulcs");
+                }
+            }
         }
     }
 }
