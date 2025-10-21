@@ -10,7 +10,7 @@ namespace OE.ALGA.Optimalizalas
         Func<int, T> generator;
         Func<T, float> josag;
 
-        public int LepesSzam { get;private set; }
+        public int LepesSzam { get; private set; }
 
         public NyersEro(int m, Func<int, T> generator, Func<T, float> josag)
         {
@@ -35,14 +35,14 @@ namespace OE.ALGA.Optimalizalas
         }
     }
 
-    public class HatizsakProblema<T>
+    public class HatizsakProblema
     {
         public int m;
         public int Wmax;
         public int[] w;
-        public double[] p;
+        public float[] p;
 
-        public HatizsakProblema(int m, int wmax, int[] w, double[] p)
+        public HatizsakProblema(int m, int wmax, int[] w, float[] p)
         {
             this.m = m;
             Wmax = wmax;
@@ -50,12 +50,17 @@ namespace OE.ALGA.Optimalizalas
             this.p = p;
         }
 
-        public double OsszErtek(bool[] pakolas)
+        public float OsszErtek(bool[] pakolas)
         {
-            double s = 0;
-            int n = pakolas.Length;
+            if (pakolas == null || pakolas.Length == 0)
+            {
+                return 0;
+            }
 
-            for (int i = 1;  i < n; i++)
+            float s = 0;
+            int n = Math.Min(pakolas.Length, p.Length);
+
+            for (int i = 0; i < n; i++)
             {
                 if (pakolas[i])
                 {
@@ -68,10 +73,15 @@ namespace OE.ALGA.Optimalizalas
 
         public int OsszSuly(bool[] pakolas)
         {
-            int s = 0;
-            int n = pakolas.Length;
+            if (pakolas == null || pakolas.Length == 0)
+            {
+                return 0;
+            }
 
-            for (int i = 1; i < n; i++)
+            int s = 0;
+            int n = Math.Min(pakolas.Length, w.Length);
+
+            for (int i = 0; i < n; i++)
             {
                 if (pakolas[i])
                 {
@@ -84,16 +94,55 @@ namespace OE.ALGA.Optimalizalas
 
         public bool Ervenyes(bool[] pakolas)
         {
-            int n = pakolas.Length;
             int s = OsszSuly(pakolas);
-            double e = OsszErtek(pakolas);
+            return s <= Wmax;
+        }
+    }
 
-            if (s <= e)
+    public class NyersEroHatizsakPakolas
+    {
+        public int LepesSzam { get; private set; }
+        HatizsakProblema problema;
+
+        public NyersEroHatizsakPakolas(HatizsakProblema problema)
+        {
+            this.problema = problema;
+        }
+
+        public bool[] Generator (int i)
+        {
+            bool[] pakolas = new bool[problema.m];
+
+            for (int j = 0; j < problema.m; j++)
             {
-                return true;
+                pakolas[j] = ((i >> j) & 1) == 1; 
             }
 
-            return false;
+            return pakolas;
+        }
+
+        private float Josag(bool[] pakolas)
+        {
+            if (!problema.Ervenyes(pakolas))
+            {
+                return -1;
+            }
+            return problema.OsszErtek(pakolas);
+        }
+
+        public bool[] OptimalisMegoldas()
+        {
+            int megoldasokSzama = (int)Math.Pow(2, problema.m);
+            var nyersEro = new NyersEro<bool[]>(megoldasokSzama, Generator, Josag);
+            bool[] optimalisPakolas = nyersEro.OptimalisMegoldas();
+            LepesSzam = nyersEro.LepesSzam;
+            return optimalisPakolas;
+        }
+
+        public float OptimalisErtek()
+        {
+            bool[] optimalis = OptimalisMegoldas();
+            return problema.OsszErtek(optimalis);
         }
     }
 }
