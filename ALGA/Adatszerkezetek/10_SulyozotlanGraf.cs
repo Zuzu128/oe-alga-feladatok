@@ -128,4 +128,55 @@ namespace OE.ALGA.Adatszerkezetek
             return M[honnan, hova];
         }
     }
+
+    public static class GrafBejarasok
+    {
+        public static Halmaz<V> SzelessegiBejaras<V, E>(Graf<V, E> g, V start, Action<V> muvelet) where V : IComparable
+        {
+            Sor<V> S = new LancoltSor<V>();
+            Halmaz<V> F = new FaHalmaz<V>();
+
+            S.Sorba(start);
+            F.Beszur(start);
+
+            while (!S.Ures)
+            {
+                V k = S.Sorbol();
+                muvelet(k);
+
+                for (int i = 0; i < g.CsucsokSzama; i++)
+                {
+                    V x = (V)(object)i;
+                    if (g.VezetEl(k, x) && !F.Eleme(x))
+                    {
+                        S.Sorba(x);
+                        F.Beszur(x);
+                    }
+                }
+            }
+            return F;
+        }
+
+        public static Halmaz<V> MelysegiBejaras<V, E>(Graf<V, E> g, V start, Action<V> muvelet) where V : IComparable
+        {
+            Halmaz<V> F = new FaHalmaz<V>();
+            MelysegiBejarasRekurzio(g, start, ref F, muvelet);
+            return F;
+        }
+
+        private static void MelysegiBejarasRekurzio<V, E>(Graf<V, E> g, V k, ref Halmaz<V> F, Action<V> muvelet)
+        {
+            F.Beszur(k);
+            muvelet(k);
+
+            for (int i = 0; i < g.CsucsokSzama; i++)
+            {
+                V x = (V)(object)i;
+                if (g.VezetEl(k, x) && !F.Eleme(x))
+                {
+                    MelysegiBejarasRekurzio(g, x, ref F, muvelet);
+                }
+            }
+        }
+    }
 }
