@@ -86,11 +86,36 @@ namespace OE.ALGA.Adatszerkezetek
             }
         }
 
-        public Halmaz<EgeszGrafEl> Elek => throw new NotImplementedException();
+        public Halmaz<EgeszGrafEl> Elek
+        {
+            get
+            {
+                Halmaz<EgeszGrafEl>elek = new FaHalmaz<EgeszGrafEl>();
+                for (int i = 0; i < n; i++)
+                {
+                    for (int j = 0;j <n; j++)
+                    {
+                        if (M[i, j])
+                        {
+                            elek.Beszur(new EgeszGrafEl(i, j));
+                        }
+                    }
+                }
+                return elek;
+            }
+        }
 
         public Halmaz<int> Szomszedai(int csucs)
         {
-            throw new NotImplementedException();
+            Halmaz<int> szomszedok = new FaHalmaz<int>();
+            for (int j = 0; j < n; j++)
+            {
+                if (M[csucs, j])
+                {
+                    szomszedok.Beszur(j);
+                }
+            }
+            return szomszedok;
         }
 
         public void UjEl(int honnan, int hova)
@@ -100,7 +125,7 @@ namespace OE.ALGA.Adatszerkezetek
 
         public bool VezetEl(int honnan, int hova)
         {
-            throw new NotImplementedException();
+            return M[honnan, hova];
         }
     }
 }
