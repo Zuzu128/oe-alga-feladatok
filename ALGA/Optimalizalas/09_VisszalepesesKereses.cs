@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OE.ALGA.Optimalizalas
@@ -25,7 +26,7 @@ namespace OE.ALGA.Optimalizalas
             LepesSzam = 0;
         }
         public int LepesSzam { get; protected set; }
-        protected virtual void BackTrack(int szint, ref T[] E, ref bool van, ref T[] O)
+        protected virtual void BackTrack(int szint, T[] E, ref bool van, ref T[] O)
         {
             for (int i = 0; i < M[szint]; i++)
             {
@@ -43,7 +44,7 @@ namespace OE.ALGA.Optimalizalas
                     }
                     else
                     {
-                        BackTrack(szint + 1, ref E, ref van, ref O);
+                        BackTrack(szint + 1, E, ref van, ref O);
                     }
                 }
             }
@@ -54,7 +55,7 @@ namespace OE.ALGA.Optimalizalas
             T[] O = new T[n];
             bool van = false;
 
-            BackTrack(0, ref E, ref van, ref O);
+            BackTrack(0, E, ref van, ref O);
             return O;
         }
     }
@@ -105,12 +106,12 @@ namespace OE.ALGA.Optimalizalas
             this.fb = fb;
         }
 
-        protected override void BackTrack(int szint, ref T[] E, ref bool van, ref T[] O)
+        protected override void BackTrack(int szint, T[] E, ref bool van, ref T[] O)
         {
             //LepesSzam++; //46
             for (int i = 0; i < M[szint]; i++)
             {
-                //LepesSzam++; //92
+                LepesSzam++; //92
                 if (ft(szint, R[szint, i]) && fk(szint, R[szint, i], E))
                 {
                     E[szint] = R[szint, i];
@@ -127,7 +128,7 @@ namespace OE.ALGA.Optimalizalas
                     else if (josag(E) + fb(szint, E) > josag(O))
                     {
                         //LepesSzam++; //45
-                        BackTrack(szint + 1, ref E, ref van, ref O);
+                        BackTrack(szint + 1, E, ref van, ref O);
                     }
                 }
             }
@@ -160,7 +161,10 @@ namespace OE.ALGA.Optimalizalas
                 problema.OsszErtek,
                 (szint, E) => {
                     int becsultErtek = 0;
-                    for (int i = szint; i < problema.m; i++) becsultErtek += (int)problema.p[i];
+                    for (int i = szint; i < problema.m; i++)
+                    {
+                        if (problema.OsszSuly(E) + problema.w[i] <= problema.Wmax) becsultErtek += (int)problema.p[i];
+                    }
                     return becsultErtek;
                 }
             );
