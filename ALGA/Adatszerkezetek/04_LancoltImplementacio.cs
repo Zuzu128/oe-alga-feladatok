@@ -128,15 +128,15 @@ namespace OE.ALGA.Adatszerkezetek
         {
             if (fej != null)
             {
-                T ertek = fej.tart;
-                LancElem<T>? q = fej;
-                fej = fej.kov;
-                if (fej != null)
+                T val = fej.tart;
+                if (fej == vege)
                 {
                     vege = null;
+                    fej = null;
                 }
-                q = null;
-                return ertek;
+                else
+                    fej = fej.kov;
+                return val;
             }
             else
             {
